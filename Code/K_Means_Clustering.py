@@ -72,11 +72,10 @@ for k in range(2, len(X.index)//20):
             i = 1
             for i1, c in centroids.iterrows():
                 cur_dist = []
-                for i2, d in X.iterrows(): 
-                    temp = E(d[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']],
-                             c[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']])
-                    cur_dist.append(temp)
-
+                for i2, d in X.iterrows():
+                    cur_dist.append(
+                        E(d[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']],
+                        c[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']]))
                 dist[i] = cur_dist
                 i += 1
 
