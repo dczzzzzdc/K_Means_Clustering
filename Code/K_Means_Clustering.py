@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 #endregion
 
 #region Functions
+
 def elbow_point(WCSS, K):
     deriv = []  # deriv[i]: the slope between k[i] and k[i+1]
     for i in range(len(K) - 1):
@@ -31,10 +32,6 @@ def elbow_point(WCSS, K):
 def E(x, y):  # compute the Euclidean distance between two series
     return np.linalg.norm(x - y)
 
-def calc_diff(centroids, new_centroids):
-    return ((centroids[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']] -
-             new_centroids[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']]).sum()).sum()
-
 def WCSS(centroids, X, k):
     sum = 0
     for i in range(1, k + 1):  # iterate through every cluster
@@ -42,6 +39,13 @@ def WCSS(centroids, X, k):
         for j, row in cur.iterrows():
             sum += E(row[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']], centroids.loc[i])
     return sum
+
+
+def calc_diff(centroids, new_centroids):
+    return ((centroids[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']] -
+             new_centroids[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']]).sum()).sum()
+
+
 #endregion
 
 #region Read csv file
