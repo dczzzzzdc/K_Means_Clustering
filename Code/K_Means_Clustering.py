@@ -13,6 +13,14 @@ import math
 import matplotlib.pyplot as plt
 #endregion
 
+#region Read csv file
+col_names = ['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth', 'Class']
+data = pd.read_csv('iris.csv')
+data.columns = col_names
+col = ['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']
+X = data[col]
+#endregion
+
 #region Functions
 
 def elbow_point(WCSS, K):
@@ -36,23 +44,18 @@ def WCSS(centroids, X, k):
     for i in range(1, k + 1):  # iterate through every cluster
         cur = X[(X.Cluster == i)]
         for j, row in cur.iterrows():
-            sum += E(row[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']], centroids.loc[i])
+            sum += E(row[col], centroids.loc[i])
     return sum
 
 
 def calc_diff(centroids, new_centroids):
-    return ((centroids[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']] -
-             new_centroids[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']]).sum()).sum()
+    return ((centroids[col] -
+             new_centroids[col]).sum()).sum()
 
 
 #endregion
 
-#region Read csv file
-col_names = ['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth', 'Class']
-data = pd.read_csv('iris.csv')
-data.columns = col_names
-X = data[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']]
-#endregion
+
 
 W = []  # WCSS values
 K = []  # k values
@@ -74,8 +77,7 @@ for k in range(2, len(X.index)//20):
                 cur_dist = []
                 for i2, d in X.iterrows():
                     cur_dist.append(
-                        E(d[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']],
-                        c[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']]))
+                        E(d[col],c))
                 dist[i] = cur_dist
                 i += 1
 
@@ -97,10 +99,11 @@ for k in range(2, len(X.index)//20):
                 diff = calc_diff(centroids,new_centroids)
                 # measure the difference between the new centroids and current centroids
             centroids = new_centroids
+
             rep += 1
 
         res = min(res, WCSS(centroids, X, k))  # update WCSS
-        X = data[['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth']]  # reset X
+        X = data[col]  # reset X
 
     W.append(res)
 
