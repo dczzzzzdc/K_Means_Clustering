@@ -49,8 +49,7 @@ def WCSS(centroids, X, k):
 
 
 def calc_diff(centroids, new_centroids):
-    return ((centroids[col] -
-             new_centroids[col]).sum()).sum()
+    return ((centroids[col] - new_centroids[col]).sum()).sum()
 
 
 #endregion
